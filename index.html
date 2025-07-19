@@ -12,7 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+	<!-- Lottie for animations -->
+    <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
         
 </head>
 <body>
@@ -57,23 +60,20 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>
-                        I'm a passionate 3rd-year BSc IT student at NWU with an academic average of 77.71%. 
-                        My journey in technology has been driven by a deep curiosity for web development, 
-                        artificial intelligence, data analysis, and automation systems.
+                        I'm a passionate 3rd-year BSc IT student at NWU with an academic average of 77.71%. My journey in technology has been driven by a deep curiosity for Web Development, Artificial Intelligence, Data Analysis, and Automation Systems.
                     </p>
                     <p>
-                        I specialize in Java, Python, C++, and Dart/Flutter development, with plans to 
-                        expand into JavaScript and modern web technologies. My experience includes creating 
-                        mentorship systems and developing university tools that enhance student learning experiences.
+                        I specialize in SQL, C#, Python, C++ and Java for developement of systems as well as HTML, CSS, JavaScript, React, Node.js, and Tailwind for web development. My experience includes creating Chat Apps, Invoicing Systems, SaaS Websites and more. 
                     </p>
                     <p>
-                        As a technical mentor, I believe in the power of knowledge sharing and collaborative 
-                        learning. I'm constantly exploring new technologies and methodologies to stay at the 
-                        forefront of software development.
+                        I'm constantly exploring New Technologies and Methodologies to stay at the forefront of software development and the Future of Technology. 
                     </p>
                 </div>
                 <div class="about-right">
                     <div class="about-photo">
+                        <div class="lottie-container" id="circleAnimation"></div>
+                        <div class="lottie-container lottie-rotated" id="circleAnimation2"></div>
+                        <div class="rotating-shape"></div> <!-- Rotating neon ring -->
                         <img src="assets/images/me.jpeg" alt="Brandon van Vuuren" class="profile-img" />
                     </div>
                     <div class="about-stats">
@@ -109,7 +109,7 @@
                     <ul class="skill-list">
                         <li class="skill-item"><i class="fab fa-java"></i> Java</li>
                         <li class="skill-item"><i class="fab fa-python"></i> Python</li>
-                        <li class="skill-item"><i class="fas fa-code"></i> C++</li>
+                        <li class="skill-item"><i class="fas fa-code"></i> C#</li>
                         <li class="skill-item"><i class="fas fa-mobile-alt"></i> HTML / CSS / JavaScript</li>
                         <li class="skill-item"><i class="fab fa-js-square"></i> React & Tailwind</li>
                     </ul>
@@ -137,7 +137,7 @@
                 <div class="skill-category">
                     <h3><i class="fas fa-rocket"></i> Why Hire Me?</h3>
                     <ul class="skill-list why-hire-me-list">
-                        <li class="skill-item"><i class="fas fa-bolt"></i> Fast, self-motivated learner—adapts quickly to new tech</li>
+                        <li class="skill-item"><i class="fas fa-bolt"></i> Fast, self-motivated learner that adapts quickly to new tech</li>
                         <li class="skill-item"><i class="fas fa-handshake"></i> Strong communicator and team player</li>
                         <li class="skill-item"><i class="fas fa-user-tie"></i> Proven leadership in group projects and mentoring</li>
                         <li class="skill-item"><i class="fas fa-heart"></i> Passionate about building real solutions that help people</li>
@@ -146,25 +146,65 @@
             </div>
             <div class="skills-bars">
                 <h3 class="skills-bars-title"><i class="fas fa-chart-bar"></i> Animated Skill Bars</h3>
+                <div class="skill-bar" data-skill="C#">
+                    <div class="skill-bar-header">
+                        <i class="fas fa-hashtag skill-icon"></i>
+                        <span class="skill-bar-label">C#</span>
+                    </div>
+                    <div class="skill-bar-content">
+                        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="95%"></div></div>
+                        <span class="skill-bar-value">95%</span>
+                    </div>
+                </div>
                 <div class="skill-bar" data-skill="SQL">
-                    <span class="skill-bar-label">SQL & C#</span>
-                    <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="90%"></div></div>
-                    <span class="skill-bar-value">90%</span>
+                    <div class="skill-bar-header">
+                        <i class="fas fa-database skill-icon"></i>
+                        <span class="skill-bar-label">SQL</span>
+                    </div>
+                    <div class="skill-bar-content">
+                        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="92%"></div></div>
+                        <span class="skill-bar-value">92%</span>
+                    </div>
                 </div>
-                <div class="skill-bar" data-skill="HTML & CSS">
-                    <span class="skill-bar-label">HTML & CSS</span>
-                    <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="85%"></div></div>
-                    <span class="skill-bar-value">85%</span>
+				    <div class="skill-bar" data-skill="Python">
+                    <div class="skill-bar-header">
+                        <i class="fab fa-python skill-icon"></i>
+                        <span class="skill-bar-label">Python</span>
+                    </div>
+                    <div class="skill-bar-content">
+                        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="90%"></div></div>
+                        <span class="skill-bar-value">90%</span>
+                    </div>
                 </div>
-				<div class="skill-bar" data-skill="C++">
-                    <span class="skill-bar-label">C++</span>
-                    <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="75%"></div></div>
-                    <span class="skill-bar-value">75%</span>
+				 <div class="skill-bar" data-skill="Web Development">
+                    <div class="skill-bar-header">
+                        <i class="fab fa-react skill-icon"></i>
+                        <span class="skill-bar-label">Web Dev</span>
+                    </div>
+                    <div class="skill-bar-content">
+                        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="85%"></div></div>
+                        <span class="skill-bar-value">85%</span>
+                    </div>
                 </div>
-                <div class="skill-bar" data-skill="Python">
-                    <span class="skill-bar-label">Python</span>
-                    <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="70%"></div></div>
-                    <span class="skill-bar-value">70%</span>
+                <div class="skill-bar" data-skill="Java">
+                    <div class="skill-bar-header">
+                        <i class="fab fa-java skill-icon"></i>
+                        <span class="skill-bar-label">Java</span>
+                    </div>
+                    <div class="skill-bar-content">
+                        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="82%"></div></div>
+                        <span class="skill-bar-value">82%</span>
+                    </div>
+                </div>
+				 <div class="skill-bar" data-skill="C++">
+                    <div class="skill-bar-header">
+                        <i class="fas fa-code skill-icon"></i>
+                        <span class="skill-bar-label">C++</span>
+                    </div>
+                    <div class="skill-bar-content">
+                        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 0%" data-width="75%"></div></div>
+                        <span class="skill-bar-value">75%</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -197,6 +237,43 @@
                         </p>
                     </div>
                 </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2021</div>
+                        <h3 class="timeline-title">Salesperson & Technical Advisor - iTech Vaal</h3>
+                        <p>
+                            Delivered expert technical consultation and sales guidance for PC components and hardware solutions. 
+                            Provided comprehensive troubleshooting support for customer devices, demonstrating strong 
+                            problem-solving skills and technical knowledge. Successfully balanced technical expertise 
+                            with customer service excellence in a fast-paced retail environment.
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2020</div>
+                        <h3 class="timeline-title">Music Teacher & Student Mentor - Happy Music School</h3>
+                        <p>
+                            Guided students through their musical journey as both an instructor and mentor. 
+                            Developed personalized learning strategies, fostered creative expression, and built 
+                            lasting relationships with students and families. Demonstrated strong communication 
+                            skills, patience, and the ability to inspire and motivate others in their educational pursuits.
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2017 - 2020</div>
+                        <h3 class="timeline-title">Maintenance Technician - Cape Gate</h3>
+                        <p>
+                            Executed critical shutdown maintenance and repair operations across multiple facilities. 
+                            Participated in three major maintenance cycles from 2017-2020, developing strong technical 
+                            skills, attention to detail, and experience working in high-pressure industrial environments. 
+                            Demonstrated reliability, teamwork, and commitment to safety protocols while contributing 
+                            to operational efficiency.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -206,7 +283,7 @@
         <div class="container">
             <h2>Featured Projects</h2>
             <div class="projects-grid">
-                <div class="project-card">
+                <div class="project-card" data-project="nwumessenger" title="Click to view more">
                     <div class="project-image">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
@@ -231,56 +308,167 @@
                         </div>
                     </div>
                 </div>
+                <div class="project-card" data-project="invoiceai" title="Click to view more">
+                    <div class="project-image">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Invoice.AI</h3>
+                        <div class="project-role">Full-Stack Developer & AI Integration</div>
+                        <p>
+                            Developed a comprehensive SaaS platform for SMEs to create custom invoice templates 
+                            with integrated AI capabilities. Built a modern dashboard with real-time analytics 
+                            and LLM-powered decision-making features for business intelligence.
+                        </p>
+                        <p>
+                            Implemented secure authentication, real-time data synchronization, and scalable 
+                            architecture using modern web technologies. Designed for high-performance 
+                            and enterprise-level reliability.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Tailwind</span>
+                            <span class="tech-tag">Supabase</span>
+                            <span class="tech-tag">SQL</span>
+                            <span class="tech-tag">AI/LLM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="nailsalon" title="Click to view more">
+                    <div class="project-image">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Nail Salon Website</h3>
+                        <div class="project-role">Frontend Developer & UI/UX Designer</div>
+                        <p>
+                            Created a modern, responsive business website template for beauty professionals 
+                            and nail salons. Designed with conversion optimization in mind, featuring 
+                            booking systems, service showcases, and customer testimonials.
+                        </p>
+                        <p>
+                            Implemented mobile-first design principles with smooth animations and 
+                            intuitive user experience. Built as a scalable template that can be 
+                            customized for various beauty service providers.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Tailwind</span>
+                            <span class="tech-tag">Responsive</span>
+                            <span class="tech-tag">UI/UX</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="project-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 id="modalTitle">Project Title</h2>
+                <p id="modalRole">Project Role</p>
+            </div>
+            <div class="modal-body">
+                <div class="project-gallery" id="projectGallery">
+                    <!-- Gallery content will be populated by JavaScript -->
+                </div>
+                <div class="project-details">
+                    <div class="project-description">
+                        <h3>Project Overview</h3>
+                        <p id="modalDescription"></p>
+                    </div>
+                    <div class="project-features">
+                        <h3>Key Features</h3>
+                        <ul id="modalFeatures">
+                            <!-- Features will be populated by JavaScript -->
+                        </ul>
+                    </div>
+                    <div class="project-tech-stack">
+                        <h3>Technology Stack</h3>
+                        <div id="modalTechStack">
+                            <!-- Tech stack will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Image Modal -->
+    <div id="fullscreenModal" class="fullscreen-modal">
+        <div class="fullscreen-overlay"></div>
+        <div class="fullscreen-content">
+            <button class="fullscreen-close" id="fullscreenClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="fullscreen-nav fullscreen-prev" id="fullscreenPrev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="fullscreen-nav fullscreen-next" id="fullscreenNext">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <img id="fullscreenImage" src="" alt="Fullscreen Image" />
+            <div class="fullscreen-info">
+                <span id="fullscreenCounter">1 / 6</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
             <h2>Get In Touch</h2>
             <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <strong>Email</strong><br>
-                            <a href="mailto:brandon.vanvuuren60@gmail.com" style="color: var(--accent-green); text-decoration: none;">
-                                brandon.vanvuuren60@gmail.com
-                            </a>
-                        </div>
+                <!-- 3D Avatar Viewer - Full Width on Desktop -->
+                <div class="avatar-section">
+                    <div class="avatar-container">
+                        <h4>Meet My Digital Twin</h4>
+                        <model-viewer 
+                            src="https://models.readyplayer.me/687bbc778010b70ef5053522.glb" 
+                            alt="Brandon's 3D Avatar" 
+                            auto-rotate 
+                            camera-controls 
+                            shadow-intensity="1" 
+                            exposure="0.8" 
+                            ar 
+                            environment-image="neutral"
+                            class="avatar-viewer"
+                        ></model-viewer>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <strong>Phone</strong><br>
-                            <a href="tel:+27796433447" style="color: var(--accent-green); text-decoration: none;">
-                                +27 79 643 3447
-                            </a>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <strong>Location</strong><br>
-                            Vanderbijlpark, Gauteng, South Africa
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <div>
-                            <strong>Education</strong><br>
-                            BSc IT Student at NWU (Vaal Campus)
-                        </div>
-                    </div>
-                    <!-- Resume Download Button -->
-                    <a href="assets/items/Brandon CV Final.pdf" download class="resume-download-btn" aria-label="Download CV (PDF)">
-                        <i class="fas fa-file-download"></i>
-                        Download CV (PDF)
-                    </a>
                 </div>
-                <div class="contact-form">
-                    <form action="https://formspree.io/f/manbnwrr" method="POST">
+                
+                <!-- Contact Info and Form - Side by Side on Desktop -->
+                <div class="contact-bottom-section">
+                    <div class="contact-info">
+                        <h3>Let's Connect!</h3>
+                        <p>I'm always open to discussing new opportunities, interesting projects, or just having a chat about technology.</p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>brandonvanvuuren@gmail.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+27 82 123 4567</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Vanderbijlpark, Gauteng, South Africa</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form class="contact-form" action="https://formspree.io/f/xpzgwqzg" method="POST">
                         <div class="form-group">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" id="name" name="name" class="form-input" required>
