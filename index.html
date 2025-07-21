@@ -4,19 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brandon van Vuuren - Developer Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icon/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icon/favicon.png">
+    <link rel="apple-touch-icon" href="assets/icon/favicon.png">
+    
+    <!-- Meta Information -->
+    <meta name="description" content="Brandon van Vuuren - BSc IT Student and Full-Stack Developer. Specializing in React, Node.js, Python, and modern web technologies.">
+    <meta name="keywords" content="Brandon van Vuuren, Developer, Portfolio, React, Node.js, Python, Web Development, Full-Stack">
+    <meta name="author" content="Brandon van Vuuren">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Brandon van Vuuren - Developer Portfolio">
+    <meta property="og:description" content="BSc IT Student and Full-Stack Developer specializing in modern web technologies">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="assets/icon/favicon.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Brandon van Vuuren - Developer Portfolio">
+    <meta name="twitter:description" content="BSc IT Student and Full-Stack Developer">
+    <meta name="twitter:image" content="assets/icon/favicon.png">
+    
     <!-- Stylesheet -->
-	<link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<!-- Lottie for animations -->
+    
+    <!-- Lottie for animations -->
     <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-        
 </head>
 <body>
     <div class="scroll-indicator" id="scrollIndicator"></div>
@@ -43,6 +69,7 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <canvas id="matrix-canvas" class="matrix-background"></canvas>
         <div class="hero-content">
             <h1>Brandon van Vuuren</h1>
             <p class="hero-subtitle">BSc IT Student | Developer | Mentor</p>
@@ -428,25 +455,7 @@
         <div class="container">
             <h2>Get In Touch</h2>
             <div class="contact-content">
-                <!-- 3D Avatar Viewer - Full Width on Desktop -->
-                <div class="avatar-section">
-                    <div class="avatar-container">
-                        <h4>Meet My Digital Twin</h4>
-                        <model-viewer 
-                            src="https://models.readyplayer.me/687bbc778010b70ef5053522.glb" 
-                            alt="Brandon's 3D Avatar" 
-                            auto-rotate 
-                            camera-controls 
-                            shadow-intensity="1" 
-                            exposure="0.8" 
-                            ar 
-                            environment-image="neutral"
-                            class="avatar-viewer"
-                        ></model-viewer>
-                    </div>
-                </div>
-                
-                <!-- Contact Info and Form - Side by Side on Desktop -->
+                <!-- Contact Info and Form -->
                 <div class="contact-bottom-section">
                     <div class="contact-info">
                         <h3>Let's Connect!</h3>
@@ -479,10 +488,28 @@
                         </div>
                         <div class="form-group">
                             <label for="message" class="form-label">Message</label>
-                            <textarea id="message" name="message" class="form-textarea" required></textarea>
+                            <textarea id="message" name="message" class="form-textarea" rows="5" required></textarea>
                         </div>
                         <button type="submit" class="submit-btn">Send Message</button>
                     </form>
+                </div>
+                
+                <!-- 3D Avatar Viewer - Full Width Below Contact Sections -->
+                <div class="avatar-section">
+                    <div class="avatar-container">
+                        <h4>Meet My Digital Twin</h4>
+                        <model-viewer 
+                            src="https://models.readyplayer.me/687bbc778010b70ef5053522.glb" 
+                            alt="Brandon's 3D Avatar" 
+                            auto-rotate 
+                            camera-controls 
+                            shadow-intensity="1" 
+                            exposure="0.8" 
+                            ar 
+                            environment-image="neutral"
+                            class="avatar-viewer"
+                        ></model-viewer>
+                    </div>
                 </div>
             </div>
         </div>

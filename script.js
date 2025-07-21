@@ -35,8 +35,8 @@ function setupScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('fade-in-up');
-                // Add staggered animation for child elements
-                const children = entry.target.querySelectorAll('.skill-category, .timeline-item, .project-card');
+                // Add staggered animation for child elements (excluding skill-category and project-card which have their own animations)
+                const children = entry.target.querySelectorAll('.timeline-item');
                 children.forEach((child, index) => {
                     setTimeout(() => {
                         child.classList.add('fade-in-up');
@@ -688,9 +688,9 @@ function setupFullscreenModal() {
     window.openFullscreenModal = openFullscreen;
 }
 
-// Initialize all functionality
+// All functionality
 document.addEventListener('DOMContentLoaded', () => {
-    // Setup all features
+    // Setup features
     setupScrollAnimations();
     setupMobileMenu();
     setupContactForm();
@@ -701,9 +701,13 @@ document.addEventListener('DOMContentLoaded', () => {
     setupCustomCursor();
     setupTimelineAnimations();
     setupProjectModals();
-    setupFullscreenModal(); // Initialize fullscreen modal
+    setupFullscreenModal(); 
+    animateSkillsCards(); 
+    animateSkillsBars();
+    animateProjectsSequentially();
+    setupMatrixBackground();
     
-    // Setup smooth scrolling for navigation links
+    // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -719,3 +723,352 @@ document.addEventListener('DOMContentLoaded', () => {
     
     updateScrollProgress();
 });
+
+// Lottie animations
+function initLottieAnimations() {
+    // Circle animation around profile photo
+    const circleAnimation = lottie.loadAnimation({
+        container: document.getElementById('circle-animation'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'assets/animations/circle-animation.json'
+    });
+
+    // Second rotated animation
+    const rotatedAnimation = lottie.loadAnimation({
+        container: document.getElementById('rotated-animation'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'assets/animations/circle-animation.json'
+    });
+}
+
+// Skills cards scroll animation
+function animateSkillsCards() {
+    const topCards = document.querySelectorAll('.skill-category:nth-child(1), .skill-category:nth-child(2)');
+    const bottomCards = document.querySelectorAll('.skill-category:nth-child(3), .skill-category:nth-child(4)');
+    const skillsSection = document.querySelector('#skills');
+    
+    let topAnimationTriggered = false;
+    let bottomAnimationTriggered = false;
+    
+    // Observer for top cards (when section approaches center with 10% buffer)
+    const topObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting && !topAnimationTriggered) {
+                topAnimationTriggered = true;
+                setTimeout(() => {
+                    topCards.forEach(card => {
+                        card.classList.add('animate-in');
+                    });
+                }, 200);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '60% 0px -40% 0px'
+    });
+    
+    // Observer for bottom cards (when further into the section with 10% buffer)
+    const bottomObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting && !bottomAnimationTriggered && topAnimationTriggered) {
+                bottomAnimationTriggered = true;
+                setTimeout(() => {
+                    bottomCards.forEach(card => {
+                        card.classList.add('animate-in');
+                    });
+                }, 300);
+            }
+        });
+    }, {
+        threshold: 0.3,
+        rootMargin: '40% 0px -60% 0px'
+    });
+
+    if (skillsSection) {
+        topObserver.observe(skillsSection);
+        bottomObserver.observe(skillsSection);
+    }
+    
+    // Alternative scroll-based detection as backup
+    let scrollCheckInterval;
+    function checkScrollPosition() {
+        if (!skillsSection) return;
+        
+        const rect = skillsSection.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const sectionTop = rect.top;
+        const sectionHeight = rect.height;
+        
+        // Trigger top cards when section approaches center (with 10% buffer)
+        if (!topAnimationTriggered && sectionTop < windowHeight * 0.7) {
+            topAnimationTriggered = true;
+            topCards.forEach(card => {
+                card.classList.add('animate-in');
+            });
+        }
+        
+        // Trigger bottom cards when section is more centered (with 10% buffer)
+        if (!bottomAnimationTriggered && topAnimationTriggered && sectionTop < windowHeight * 0.4) {
+            bottomAnimationTriggered = true;
+            setTimeout(() => {
+                bottomCards.forEach(card => {
+                    card.classList.add('animate-in');
+                });
+            }, 400);
+        }
+        
+        // Stop checking once both animations are triggered
+        if (topAnimationTriggered && bottomAnimationTriggered) {
+            clearInterval(scrollCheckInterval);
+        }
+    }
+    
+    // Start scroll checking
+    scrollCheckInterval = setInterval(checkScrollPosition, 100);
+    
+    // Fallback: Show all cards after 10 seconds
+    setTimeout(() => {
+        if (!topAnimationTriggered) {
+            topCards.forEach(card => {
+                card.classList.add('animate-in');
+            });
+        }
+        if (!bottomAnimationTriggered) {
+            bottomCards.forEach(card => {
+                card.classList.add('animate-in');
+            });
+        }
+        clearInterval(scrollCheckInterval);
+    }, 10000);
+}
+
+// Skills bars scroll animation
+function animateSkillsBars() {
+    const skillsBarsSection = document.querySelector('.skills-bars');
+    let skillsBarsAnimationTriggered = false;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting && !skillsBarsAnimationTriggered) {
+                skillsBarsAnimationTriggered = true;
+                setTimeout(() => {
+                    skillsBarsSection.classList.add('animate-in');
+                }, 100);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '70% 0px -30% 0px'
+    });
+
+    if (skillsBarsSection) {
+        observer.observe(skillsBarsSection);
+    }
+    
+    // Fallback: Show skills bars after 8 seconds
+    setTimeout(() => {
+        if (!skillsBarsAnimationTriggered && skillsBarsSection) {
+            skillsBarsSection.classList.add('animate-in');
+        }
+    }, 8000);
+}
+
+// Sequential project animations - each project fades in one after another
+function animateProjectsSequentially() {
+    const projectsSection = document.querySelector('#projects');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    let projectsAnimationTriggered = false;
+    
+    // Set initial state - all projects invisible
+    projectCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting && !projectsAnimationTriggered) {
+                projectsAnimationTriggered = true;
+                
+                // Animate projects one by one with delays
+                projectCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 300); // 300ms delay between each project
+                });
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '75% 0px -25% 0px' // Trigger 25% before center
+    });
+
+    if (projectsSection) {
+        observer.observe(projectsSection);
+    }
+    
+    // Fallback: Show all projects after 10 seconds
+    setTimeout(() => {
+        if (!projectsAnimationTriggered) {
+            projectCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 300);
+            });
+        }
+    }, 10000);
+}
+
+// Matrix background animation for Hero section
+function setupMatrixBackground() {
+    const canvas = document.getElementById('matrix-canvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Brandon's personal data for Matrix effect
+    const letters = [
+        ..."BrandonvanVuuren",
+        ..."brandon.vanvuuren60@gmail.com",
+        ..."+27796433447",
+        ..."NorthWestUniversity",
+        ..."BScITStudent",
+        ..."PythonJavaC++",
+        ..."AIWebDev",
+        ..."InvoaIQ",
+        ..."MusicLover",
+        ..."Guitarist",
+        ..."PianoPlayer",
+        ..."Gamer",
+        ..."Valorant",
+        ..."LeagueOfLegends",
+        ..."SQLJavaPython",
+        ..."HTMLCSSJS",
+        ..."ReactTypeScript",
+        ..."TailwindCSS",
+        ..."Developer",
+        ..."Mentor",
+        ..."Learner",
+        ..."CuriousMind",
+        ..."ProblemSolver",
+        ..."CreativeThinker",
+        ..."FaithDriven",
+        ..."Productive",
+        ..."AutomationGeek",
+        ..."WebBuilder",
+        ..."CodeExplorer",
+        ..."Visionary"
+    ];
+    
+    // Set canvas size
+    function resizeCanvas() {
+        const heroSection = document.querySelector('#home');
+        if (heroSection) {
+            canvas.width = heroSection.offsetWidth;
+            canvas.height = heroSection.offsetHeight;
+        }
+    }
+    
+    // Initialize canvas
+    resizeCanvas();
+    
+    // Font size and columns
+    const fontSize = 16;
+    const columns = Math.floor(canvas.width / fontSize);
+    
+    // Array of drop positions for each column with different speeds
+    const drops = new Array(columns).fill(1);
+    const speeds = new Array(columns).fill(0).map(() => 0.5 + Math.random() * 1.5);
+    const opacities = new Array(columns).fill(0).map(() => 0.3 + Math.random() * 0.7);
+    
+    function drawMatrix() {
+        // Clear with darker background for better contrast
+        ctx.fillStyle = "rgba(10, 10, 10, 0.15)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw multiple layers for 3D effect
+        for (let layer = 0; layer < 3; layer++) {
+            const layerOpacity = 0.3 + (layer * 0.2);
+            const layerSpeed = 1 + (layer * 0.3);
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                const x = i * fontSize + (layer * 2);
+                const y = drops[i] * fontSize * layerSpeed;
+                
+                // Create gradient effect for 3D depth
+                const gradient = ctx.createLinearGradient(x, y - fontSize, x, y + fontSize);
+                gradient.addColorStop(0, `rgba(0, 167, 64, ${opacities[i] * layerOpacity})`);
+                gradient.addColorStop(0.5, `rgba(0, 255, 136, ${opacities[i] * layerOpacity})`);
+                gradient.addColorStop(1, `rgba(0, 167, 64, ${opacities[i] * layerOpacity * 0.5})`);
+                
+                ctx.fillStyle = gradient;
+                ctx.font = `bold ${fontSize - layer}px 'Share Tech Mono', monospace`;
+                
+                // Enhanced glow effect
+                ctx.shadowColor = "#00a740";
+                ctx.shadowBlur = 5 + layer * 2;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                
+                ctx.fillText(text, x, y);
+                
+                // Add subtle white highlight for 3D effect
+                ctx.shadowColor = "rgba(255, 255, 255, 0.3)";
+                ctx.shadowBlur = 2;
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacities[i] * 0.1})`;
+                ctx.fillText(text, x - 1, y - 1);
+                
+                // Reset shadow
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                
+                // Reset drop to top randomly with different probabilities per layer
+                if (y > canvas.height && Math.random() > (0.98 - layer * 0.01)) {
+                    drops[i] = 0;
+                    speeds[i] = 0.5 + Math.random() * 1.5;
+                    opacities[i] = 0.3 + Math.random() * 0.7;
+                }
+                
+                drops[i] += speeds[i] * layerSpeed;
+            }
+        }
+        
+        // Add floating particles for extra depth
+        for (let i = 0; i < 20; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const size = Math.random() * 3;
+            const alpha = Math.random() * 0.3;
+            
+            ctx.fillStyle = `rgba(0, 255, 136, ${alpha})`;
+            ctx.shadowColor = "#00a740";
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    }
+    
+    // Animate every 40ms for smoother effect
+    const matrixInterval = setInterval(drawMatrix, 40);
+    
+    // Handle resize
+    window.addEventListener("resize", resizeCanvas);
+    
+    // Cleanup function
+    return () => {
+        clearInterval(matrixInterval);
+        window.removeEventListener("resize", resizeCanvas);
+    };
+}
