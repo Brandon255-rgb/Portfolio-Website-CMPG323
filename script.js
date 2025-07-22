@@ -76,7 +76,7 @@ function setupMobileMenu() {
 
 // Form handling
 function setupContactForm() {
-    const contactForm = document.querySelector('.contact-form form');
+    const contactForm = document.querySelector('.contact-form');
     
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
