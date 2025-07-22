@@ -717,9 +717,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     
-    window.addEventListener('scroll', updateScrollProgress);
-    window.addEventListener('scroll', animateSkillBars);
-    window.addEventListener('DOMContentLoaded', animateSkillBars);
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('scroll', animateSkillBars, { passive: true });
+    window.addEventListener('DOMContentLoaded', animateSkillBars, { passive: true });
     
     updateScrollProgress();
 });

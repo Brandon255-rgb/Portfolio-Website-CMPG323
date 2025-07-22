@@ -29,13 +29,14 @@
     <meta name="twitter:description" content="BSc IT Student and Full-Stack Developer">
     <meta name="twitter:image" content="assets/icon/favicon.png">
     
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="./styles.css">
-    
-    <!-- Google Fonts -->
+    <!-- Preload main stylesheet -->
+    <link rel="preload" href="./styles.css" as="style" onload="this.rel='stylesheet'">
+    <!-- Preload Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" onload="this.rel='stylesheet'">
+    <!-- Preload main hero/profile image -->
+    <link rel="preload" as="image" href="assets/images/me.jpeg">
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -100,8 +101,9 @@
                     <div class="about-photo">
                         <div class="lottie-container" id="circleAnimation"></div>
                         <div class="lottie-container lottie-rotated" id="circleAnimation2"></div>
-                        <div class="rotating-shape"></div> <!-- Rotating neon ring -->
-                        <img src="assets/images/me.jpeg" alt="Brandon van Vuuren" class="profile-img" />
+                        <div class="rotating-shape"></div>
+						 <!-- Rotating neon ring -->
+                        <img src="assets/images/me.jpeg" alt="Brandon van Vuuren" class="profile-img" loading="lazy" />
                     </div>
                     <div class="about-stats">
                         <div class="stat-item">
@@ -528,6 +530,6 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="./script.js"></script>
+    <script src="./script.js" defer></script>
 </body>
 </html> 
