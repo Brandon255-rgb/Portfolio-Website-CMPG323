@@ -1,3 +1,4 @@
+/* REMINDER: Minify this file with Terser or esbuild before deploying to GitHub Pages */
 // Enhanced scroll progress indicator
 function updateScrollProgress() {
     const scrollIndicator = document.getElementById('scrollIndicator');
@@ -464,7 +465,7 @@ function setupProjectModals() {
                         ${project.images.map((img, index) => `
                             <div class="mobile-phone-frame">
                                 <div class="mobile-screen">
-                                    <img src="${img}" alt="NWUMessenger Screenshot ${index + 1}" />
+                                    <img src="${img}" alt="NWUMessenger Screenshot ${index + 1}" loading="lazy" />
                                 </div>
                             </div>
                         `).join('')}
@@ -476,7 +477,7 @@ function setupProjectModals() {
                     <div class="gallery-invoice-grid">
                         ${project.images.map((img, index) => `
                             <div class="invoice-grid-item">
-                                <img src="${img}" alt="Invoice.AI Screenshot ${index + 1}" />
+                                <img src="${img}" alt="Invoice.AI Screenshot ${index + 1}" loading="lazy" />
                             </div>
                         `).join('')}
                     </div>
@@ -487,7 +488,7 @@ function setupProjectModals() {
                     <div class="gallery-invoice-grid">
                         ${project.images.map((img, index) => `
                             <div class="invoice-grid-item">
-                                <img src="${img}" alt="Nail Salon Screenshot ${index + 1}" />
+                                <img src="${img}" alt="Nail Salon Screenshot ${index + 1}" loading="lazy" />
                             </div>
                         `).join('')}
                     </div>
@@ -497,19 +498,19 @@ function setupProjectModals() {
                 projectGallery.innerHTML = `
                     <div class="gallery-collage">
                         <div class="main-image">
-                            <img src="${project.images[0]}" alt="Main Project Screenshot" />
+                            <img src="${project.images[0]}" alt="Main Project Screenshot" loading="lazy" />
                         </div>
                         <div class="side-image">
-                            <img src="${project.images[1]}" alt="Project Screenshot 2" />
+                            <img src="${project.images[1]}" alt="Project Screenshot 2" loading="lazy" />
                         </div>
                         <div class="side-image">
-                            <img src="${project.images[2]}" alt="Project Screenshot 3" />
+                            <img src="${project.images[2]}" alt="Project Screenshot 3" loading="lazy" />
                         </div>
                     </div>
                     <div class="gallery-thumbnails">
                         ${project.images.map((img, index) => 
                             `<div class="thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}">
-                                <img src="${img}" alt="Project Screenshot ${index + 1}" />
+                                <img src="${img}" alt="Project Screenshot ${index + 1}" loading="lazy" />
                             </div>`
                         ).join('')}
                     </div>
@@ -519,16 +520,16 @@ function setupProjectModals() {
                 projectGallery.innerHTML = `
                     <div class="gallery-grid">
                         <div class="grid-item wide">
-                            <img src="${project.images[0]}" alt="Main Project Screenshot" />
+                            <img src="${project.images[0]}" alt="Main Project Screenshot" loading="lazy" />
                         </div>
                         <div class="grid-item tall">
-                            <img src="${project.images[1]}" alt="Project Screenshot 2" />
+                            <img src="${project.images[1]}" alt="Project Screenshot 2" loading="lazy" />
                         </div>
                     </div>
                     <div class="gallery-thumbnails">
                         ${project.images.map((img, index) => 
                             `<div class="thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}">
-                                <img src="${img}" alt="Project Screenshot ${index + 1}" />
+                                <img src="${img}" alt="Project Screenshot ${index + 1}" loading="lazy" />
                             </div>`
                         ).join('')}
                     </div>
@@ -537,7 +538,7 @@ function setupProjectModals() {
                 // Single image layout
                 projectGallery.innerHTML = `
                     <div class="gallery-main">
-                        <img src="${project.images[0]}" alt="Project Screenshot" />
+                        <img src="${project.images[0]}" alt="Project Screenshot" loading="lazy" />
                     </div>
                 `;
             }
@@ -688,6 +689,37 @@ function setupFullscreenModal() {
     window.openFullscreenModal = openFullscreen;
 }
 
+// Lazy load 3D avatar model-viewer
+function setupLazyAvatar() {
+    const avatarContainer = document.getElementById('avatarContainer');
+    if (!avatarContainer) return;
+
+    let loaded = false;
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !loaded) {
+                loaded = true;
+                avatarContainer.innerHTML += `
+                    <model-viewer 
+                        src="https://models.readyplayer.me/687bbc778010b70ef5053522.glb" 
+                        alt="Brandon's 3D Avatar" 
+                        auto-rotate 
+                        camera-controls 
+                        shadow-intensity="1" 
+                        exposure="0.8" 
+                        ar 
+                        environment-image="neutral"
+                        class="avatar-viewer"
+                    ></model-viewer>
+                `;
+                obs.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+
+    observer.observe(avatarContainer);
+}
+
 // All functionality
 document.addEventListener('DOMContentLoaded', () => {
     // Setup features
@@ -706,6 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
     animateSkillsBars();
     animateProjectsSequentially();
     setupMatrixBackground();
+    setupLazyAvatar();
     
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
