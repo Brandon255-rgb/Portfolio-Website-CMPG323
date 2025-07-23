@@ -248,35 +248,84 @@ function setupLottieAnimation() {
 
 // Theme toggle functionality (for future use)
 function setupThemeToggle() {
-    const themeToggle = document.createElement('button');
-    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-    themeToggle.className = 'theme-toggle';
-    themeToggle.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        color: var(--text-primary);
-        cursor: pointer;
-        z-index: 1000;
-        transition: var(--transition);
-    `;
+    // Check for saved theme preference or default to dark theme
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
+    // Set initial theme
+    if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+        document.body.classList.add('light-theme');
+    }
+    
+    // Create theme toggle button
+    const themeToggle = document.createElement('button');
+    themeToggle.className = 'theme-toggle';
+    themeToggle.setAttribute('aria-label', 'Toggle dark/light mode');
+    themeToggle.setAttribute('title', 'Toggle theme');
+    
+    // Set initial icon
+    const icon = document.createElement('i');
+    icon.className = document.body.classList.contains('light-theme') ? 'fas fa-sun' : 'fas fa-moon';
+    themeToggle.appendChild(icon);
+    
+    // Theme toggle functionality
     themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const icon = themeToggle.querySelector('i');
-        if (document.body.classList.contains('light-theme')) {
-            icon.className = 'fas fa-sun';
-        } else {
+        const isLight = document.body.classList.contains('light-theme');
+        
+        if (isLight) {
+            // Switch to dark theme
+            document.body.classList.remove('light-theme');
             icon.className = 'fas fa-moon';
+            localStorage.setItem('theme', 'dark');
+            
+            // Add transition effect
+            themeToggle.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+                themeToggle.style.transform = 'rotate(0deg)';
+            }, 300);
+        } else {
+            // Switch to light theme
+            document.body.classList.add('light-theme');
+            icon.className = 'fas fa-sun';
+            localStorage.setItem('theme', 'light');
+            
+            // Add transition effect
+            themeToggle.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+                themeToggle.style.transform = 'rotate(0deg)';
+            }, 300);
         }
+        
+        // Trigger custom event for other components
+        document.dispatchEvent(new CustomEvent('themeChanged', {
+            detail: { theme: isLight ? 'dark' : 'light' }
+        }));
     });
     
+    // Add hover effect for icon rotation
+    themeToggle.addEventListener('mouseenter', () => {
+        icon.style.transform = 'rotate(180deg)';
+    });
+    
+    themeToggle.addEventListener('mouseleave', () => {
+        icon.style.transform = 'rotate(0deg)';
+    });
+    
+    // Append to body
     document.body.appendChild(themeToggle);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            if (e.matches) {
+                document.body.classList.remove('light-theme');
+                icon.className = 'fas fa-moon';
+            } else {
+                document.body.classList.add('light-theme');
+                icon.className = 'fas fa-sun';
+            }
+        }
+    });
 }
 
 // Animate skill bars on scroll
@@ -1023,8 +1072,10 @@ function setupMatrixBackground() {
     const opacities = new Array(columns).fill(0).map(() => 0.3 + Math.random() * 0.7);
     
     function drawMatrix() {
-        // Clear with darker background for better contrast
-        ctx.fillStyle = "rgba(10, 10, 10, 0.15)";
+        // Clear with background that adapts to theme
+        const isLightTheme = document.body.classList.contains('light-theme');
+        const bgColor = isLightTheme ? "rgba(255, 255, 255, 0.9)" : "rgba(10, 10, 10, 0.15)";
+        ctx.fillStyle = bgColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         // Draw multiple layers for 3D effect
@@ -1037,7 +1088,7 @@ function setupMatrixBackground() {
                 const x = i * fontSize + (layer * 2);
                 const y = drops[i] * fontSize * layerSpeed;
                 
-                // Create gradient effect for 3D depth
+                // Create gradient effect for 3D depth - always green letters
                 const gradient = ctx.createLinearGradient(x, y - fontSize, x, y + fontSize);
                 gradient.addColorStop(0, `rgba(0, 167, 64, ${opacities[i] * layerOpacity})`);
                 gradient.addColorStop(0.5, `rgba(0, 255, 136, ${opacities[i] * layerOpacity})`);
@@ -1076,7 +1127,7 @@ function setupMatrixBackground() {
             }
         }
         
-        // Add floating particles for extra depth
+        // Add floating particles for extra depth - always green
         for (let i = 0; i < 20; i++) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;
